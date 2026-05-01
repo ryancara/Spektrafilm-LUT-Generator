@@ -1,0 +1,17 @@
+{
+  "python": "/Users/ryancara/miniforge3/envs/spektrafilm/bin/python",
+  "engine": "/Users/ryancara/Downloads/spektrafilm_lut_generator_ocio_cube/spektrafilm_state_to_lut.py",
+  "state": "/Users/ryancara/Desktop/gui_state.json",
+  "outdir": "/Users/ryancara/Downloads/spektrafilm_lut_generator_ocio_cube/Generated LUTs",
+  "format": "clf",
+  "size": "large",
+  "cube_size": "64",
+  "ocio_bakelut": "ociobakelut",
+  "input_mode": "aces-ap0",
+  "output_mode": "lut-default",
+  "compressed": false,
+  "report_detail": true,
+  "open_folder": true,
+  "input_gain": "0.0",
+  "black_offset": "0.0"
+}

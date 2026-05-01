@@ -1,0 +1,158 @@
+{
+  "input_image": {
+    "preview_resize_factor": 0.3,
+    "upscale_factor": 1.0,
+    "crop": false,
+    "crop_center": [
+      0.5,
+      0.5
+    ],
+    "crop_size": [
+      0.1,
+      0.1
+    ],
+    "input_color_space": "ProPhoto RGB",
+    "apply_cctf_decoding": false,
+    "spectral_upsampling_method": "hanatos2025",
+    "filter_uv": [
+      1.0,
+      410.0,
+      8.0
+    ],
+    "filter_ir": [
+      1.0,
+      675.0,
+      15.0
+    ]
+  },
+  "load_raw": {
+    "white_balance": "as_shot",
+    "temperature": 5500.0,
+    "tint": 1.0
+  },
+  "grain": {
+    "active": true,
+    "sublayers_active": true,
+    "particle_area_um2": 0.2,
+    "particle_scale": [
+      0.8,
+      1.0,
+      2.0
+    ],
+    "particle_scale_layers": [
+      2.5,
+      1.0,
+      0.5
+    ],
+    "density_min": [
+      0.07,
+      0.08,
+      0.12
+    ],
+    "uniformity": [
+      0.97,
+      0.97,
+      0.99
+    ],
+    "blur": 0.65,
+    "blur_dye_clouds_um": 1.0,
+    "micro_structure": [
+      0.2,
+      30.0
+    ]
+  },
+  "preflashing": {
+    "exposure": 0.0,
+    "y_filter_shift": 0.0,
+    "m_filter_shift": 0.0,
+    "just_preflash": false
+  },
+  "halation": {
+    "active": true,
+    "scattering_strength": [
+      1.0,
+      2.0,
+      4.0
+    ],
+    "scattering_size_um": [
+      30.0,
+      20.0,
+      15.0
+    ],
+    "halation_strength": [
+      3.0,
+      0.3,
+      0.1
+    ],
+    "halation_size_um": [
+      200.0,
+      200.0,
+      200.0
+    ]
+  },
+  "couplers": {
+    "active": true,
+    "dir_couplers_amount": 1.0,
+    "dir_couplers_ratio": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "dir_couplers_diffusion_um": 10.0,
+    "diffusion_interlayer": 2.0,
+    "high_exposure_shift": 0.0
+  },
+  "glare": {
+    "active": true,
+    "percent": 0.1,
+    "roughness": 0.4,
+    "blur": 0.5,
+    "compensation_removal_factor": 0.0,
+    "compensation_removal_density": 1.2,
+    "compensation_removal_transition": 0.3
+  },
+  "special": {
+    "film_channel_swap": [
+      0,
+      1,
+      2
+    ],
+    "film_gamma_factor": 1.0,
+    "print_channel_swap": [
+      0,
+      1,
+      2
+    ],
+    "print_gamma_factor": 1.0,
+    "print_density_min_factor": 0.4
+  },
+  "simulation": {
+    "film_stock": "kodak_gold_200",
+    "film_format_mm": 35.0,
+    "camera_lens_blur_um": 0.0,
+    "exposure_compensation_ev": 0.0,
+    "auto_exposure": true,
+    "auto_exposure_method": "center_weighted",
+    "print_paper": "kodak_supra_endura",
+    "print_illuminant": "TH-KG3-L",
+    "print_exposure": 1.0,
+    "print_exposure_compensation": true,
+    "print_y_filter_shift": 0.0,
+    "print_m_filter_shift": 0.0,
+    "scan_lens_blur": 0.0,
+    "scan_unsharp_mask": [
+      0.7,
+      0.7
+    ],
+    "output_color_space": "sRGB",
+    "saving_color_space": "sRGB",
+    "saving_cctf_encoding": true,
+    "scan_film": false,
+    "compute_full_image": false
+  },
+  "display": {
+    "use_display_transform": false,
+    "gray_18_canvas": true,
+    "white_padding": 0.03
+  }
+}
