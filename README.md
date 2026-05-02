@@ -36,14 +36,14 @@ In this mode, the LUT expects **ACES2065-1 / ACES AP0 linear RGB** as input and 
 
 ### Required for CLF output
 
-- Python that can import Spektrafilm
-- The Python packages required by Spektrafilm
-- A Tkinter-capable Python if using the GUI
+Python that can import Spektrafilm
+The Python packages required by Spektrafilm
+A Tkinter-capable Python if using the GUI
 
 ### Required for CUBE output
 
-- Everything required for CLF output
-- OpenColorIO command-line tools, specifically `ociobakelut`
+Everything required for CLF output
+OpenColorIO command-line tools
 
 On macOS with Homebrew:
 
@@ -73,7 +73,7 @@ conda activate Spektrafilm
 python spektrafilm_state_to_lut_gui.py
 ```
 
-Apple’s system Python/Tk may open a blank GUI window on some macOS systems. Running the GUI from the Spektrafilm conda environment is recommended.
+Apple’s system Python/Tk may open a blank GUI window. Running the GUI from the Spektrafilm conda environment is recommended.
 
 In the GUI:
 
@@ -129,7 +129,7 @@ python spektrafilm_state_to_lut.py \
 
 ## Quality settings
 
-The GUI shows explicit sampling labels instead of the old small/medium/large/huge names:
+The GUI shows sampling labels
 
 | GUI label | Internal option | Grid |
 | --- | --- | --- |
@@ -151,14 +151,6 @@ For CUBE output, `64³` is recommended. In testing, OCIO-baked 64³ CUBEs matche
 - crop/preview/upscale settings
 - raw white balance loading settings
 - display canvas/padding settings
-
-The report separates:
-
-- applied state settings
-- forced LUT-safety settings
-- overridden LUT-policy settings
-- ignored non-LUT settings
-- known unmapped settings
 
 
 ## Colour workflow notes
