@@ -5,6 +5,13 @@
 # Generates ASC-CLF LUTs by running the Spektrafilm film simulation pipeline
 # (see https://github.com/andreavolpato/spektrafilm).
 #
+# This file is derived from the ART external LUT helper:
+# https://github.com/artraweditor/ART/tree/master/tools/extlut
+#
+# Changes in this project include gui_state.json mapping, AP0 linear workflow
+# defaults, LUT-safety overrides, GUI integration, and OCIO-based CUBE export
+# via spektrafilm_state_to_lut.py.
+#
 # The old hand-written .cube writer has been removed from the normal workflow.
 # CUBE export should be done by generating CLF first, then baking that CLF with
 # OpenColorIO ociobakelut.
@@ -428,20 +435,15 @@ def getopts():
     p = argparse.ArgumentParser()
     p.add_argument('-o', '--output')
     p.add_argument('-O', '--outdir', default='.')
-    p.add_argument('-s', '--size', choices=['small', 'medium', 'large', 'huge'],
-                   default='medium')
+    p.add_argument('-s', '--size', choices=['medium', 'large', 'huge'],
+                   default='medium',
+                   help='CLF sampling quality: medium=36³, large=64³, huge=121³.')
     p.add_argument('--format', choices=['clf'], default='clf',
                    help='Output format. Native output is CLF only. Use spektrafilm_state_to_lut.py --format cube to bake a CUBE via OCIO.')
     p.add_argument('--input-colorspace',
                    choices=['aces-ap0', 'rec2020', 'srgb'],
                    default='aces-ap0',
                    help='RGB space expected by the LUT. For scene-linear workflows, use aces-ap0.')
-    p.add_argument('--cube-shaper-size', type=int, default=4096,
-                   help='Number of samples in the .cube 1D shaper LUT.')
-    p.add_argument('--cube-shaper-max', type=float, default=1.0,
-                   help='Scene-linear maximum for the .cube 1D shaper input range. Default 1.0 is Resolve-friendly; old experimental behaviour used 100.0.')
-    p.add_argument('--cube-mode', choices=['shaper', 'simple'], default='shaper',
-                   help='CUBE writing mode. shaper preserves the HDR/scene-linear PQ shaper path; simple writes a plain 3D LUT over 0..1 for compatibility testing.')
     p.add_argument('--list-options', action='store_true',
                    help='Print available film and paper indices and exit.')
     p.add_argument('--capabilities', action='store_true',
