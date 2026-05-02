@@ -160,9 +160,6 @@ The report separates:
 - ignored non-LUT settings
 - known unmapped settings
 
-## Why CLF first, then CUBE?
-
-CLF can represent the scene-linear Spektrafilm transform more safely than a hand-written CUBE. Earlier hand-written CUBE experiments were visibly washed out or incorrect. The current CUBE workflow uses the generated CLF as the reference, then asks OpenColorIO to bake a Resolve-compatible CUBE.
 
 ## Colour workflow notes
 
