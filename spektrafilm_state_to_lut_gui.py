@@ -36,6 +36,23 @@ CONFIG_PATH = APP_DATA_FOLDER / "state_lut_gui_config.json"
 DEFAULT_ENGINE = app_folder() / "spektrafilm_state_to_lut.py"
 DEFAULT_OUTPUT_FOLDER = app_folder() / "Generated LUTs"
 
+SAMPLE_QUALITY_OPTIONS = {
+    "Standard - 36³": "medium",
+    "High - 64³": "large",
+    "Extreme - 121³": "huge",
+}
+INTERNAL_TO_SAMPLE_QUALITY = {v: k for k, v in SAMPLE_QUALITY_OPTIONS.items()}
+
+
+def normalise_sample_quality(value: str) -> str:
+    """Accept new labels or old internal values from saved config files."""
+    value = str(value)
+    if value in SAMPLE_QUALITY_OPTIONS:
+        return value
+    if value in INTERNAL_TO_SAMPLE_QUALITY:
+        return INTERNAL_TO_SAMPLE_QUALITY[value]
+    return "Standard - 36³"
+
 
 def maybe_enable_dnd(root: tk.Tk, callback):
     """Enable drag/drop if tkinterdnd2 is installed. Otherwise return False."""
@@ -96,7 +113,7 @@ class App(tk.Tk):
         self.filename_var = tk.StringVar(value="")
 
         self.format_var = tk.StringVar(value="clf")
-        self.size_var = tk.StringVar(value="medium")
+        self.size_var = tk.StringVar(value="Standard - 36³")
         self.cube_size_var = tk.StringVar(value="64")
         self.ocio_bakelut_var = tk.StringVar(value="ociobakelut")
         self.input_mode_var = tk.StringVar(value="aces-ap0")
@@ -125,7 +142,6 @@ class App(tk.Tk):
             "state": self.state_var,
             "outdir": self.outdir_var,
             "format": self.format_var,
-            "size": self.size_var,
             "cube_size": self.cube_size_var,
             "ocio_bakelut": self.ocio_bakelut_var,
             "input_mode": self.input_mode_var,
@@ -135,6 +151,11 @@ class App(tk.Tk):
         }.items():
             if key in data:
                 var.set(str(data[key]))
+        if "size" in data:
+            self.size_var.set(normalise_sample_quality(str(data["size"])))
+        elif "sample_quality" in data:
+            self.size_var.set(normalise_sample_quality(str(data["sample_quality"])))
+
         for key, var in {
             "compressed": self.compressed_var,
             "report_detail": self.report_detail_var,
@@ -151,7 +172,8 @@ class App(tk.Tk):
             "state": self.state_var.get(),
             "outdir": self.outdir_var.get(),
             "format": self.format_var.get(),
-            "size": self.size_var.get(),
+            "sample_quality": self.size_var.get(),
+            "size": self._selected_size(),
             "cube_size": self.cube_size_var.get(),
             "ocio_bakelut": self.ocio_bakelut_var.get(),
             "input_mode": self.input_mode_var.get(),
@@ -184,10 +206,10 @@ class App(tk.Tk):
         opts = ttk.LabelFrame(root, text="LUT settings", padding=10)
         opts.pack(fill="x", pady=(0, 10))
         self._combo_row(opts, "Format", self.format_var, ["clf", "cube"], 0, 0)
-        self._combo_row(opts, "CLF sample size", self.size_var, ["small", "medium", "large", "huge"], 0, 2)
-        ttk.Label(opts, text="CUBE bake size").grid(row=1, column=0, sticky="w", pady=5)
+        self._combo_row(opts, "CLF sampling quality", self.size_var, list(SAMPLE_QUALITY_OPTIONS.keys()), 0, 2)
+        ttk.Label(opts, text="CUBE output resolution").grid(row=1, column=0, sticky="w", pady=5)
         ttk.Entry(opts, textvariable=self.cube_size_var, width=12).grid(row=1, column=1, sticky="w", padx=8, pady=5)
-        ttk.Label(opts, text="Used only for CUBE. 64 is recommended.", foreground="#555").grid(row=1, column=2, columnspan=2, sticky="w", pady=5)
+        ttk.Label(opts, text="Used only for CUBE. 64³ is recommended.", foreground="#555").grid(row=1, column=2, columnspan=2, sticky="w", pady=5)
         self._combo_row(opts, "Input policy", self.input_mode_var, ["aces-ap0", "rec2020", "srgb", "prophoto", "state"], 2, 0)
         self._combo_row(opts, "Output policy", self.output_mode_var, ["lut-default", "state"], 2, 2)
         ttk.Checkbutton(opts, text="Compressed CLFZ", variable=self.compressed_var).grid(row=3, column=1, sticky="w", pady=5)
@@ -291,13 +313,16 @@ class App(tk.Tk):
             return False
         return True
 
+    def _selected_size(self) -> str:
+        return SAMPLE_QUALITY_OPTIONS.get(self.size_var.get(), "medium")
+
     def _build_command(self, dry_run: bool) -> list[str]:
         cmd = [
             self.python_var.get(),
             self.engine_var.get(),
             "--state", self.state_var.get(),
             "--format", self.format_var.get(),
-            "--size", self.size_var.get(),
+            "--size", self._selected_size(),
             "--cube-size", self.cube_size_var.get(),
             "--ocio-bakelut", self.ocio_bakelut_var.get(),
             "--input-mode", self.input_mode_var.get(),
