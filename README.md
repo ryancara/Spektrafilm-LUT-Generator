@@ -19,7 +19,7 @@ This project does **not** bundle Spektrafilm. Users install Spektrafilm separate
 
 - **CLF** is the native/reference output.
 - **CUBE** export is created by first generating a CLF, then baking it to a 64³ Resolve CUBE using OpenColorIO `ociobakelut`.
-- The old hand-written CUBE writer is no longer used in the normal workflow.
+
 
 Recommended default workflow:
 
@@ -142,8 +142,6 @@ The GUI shows explicit sampling labels instead of the old small/medium/large/hug
 For CUBE output, `64³` is recommended. In testing, OCIO-baked 64³ CUBEs matched the reference CLF much better in shadows than 36³ CUBEs.
 
 ## What gets ignored for LUT generation?
-
-A 3D LUT cannot represent effects that depend on neighbouring pixels, randomness, image size, or raw-loading context. For LUT safety, the tool disables or ignores settings such as:
 
 - grain
 - halation
