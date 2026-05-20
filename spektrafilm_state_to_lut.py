@@ -58,13 +58,17 @@ STATE_TO_PARAM_MAP = [
     ("preflashing.m_filter_shift", "enlarger.preflash_m_filter_shift"),
     ("preflashing.just_preflash", "enlarger.just_preflash"),
 
-    # couplers
-    ("couplers.active", "film_render.dir_couplers.active"),
+    # couplers, older/legacy names
     ("couplers.dir_couplers_amount", "film_render.dir_couplers.amount"),
     ("couplers.dir_couplers_ratio", "film_render.dir_couplers.ratio_rgb"),
     ("couplers.dir_couplers_diffusion_um", "film_render.dir_couplers.diffusion_size_um"),
     ("couplers.diffusion_interlayer", "film_render.dir_couplers.diffusion_interlayer"),
     ("couplers.high_exposure_shift", "film_render.dir_couplers.high_exposure_shift"),
+
+    # couplers, current Spektrafilm gui_state schema
+    ("couplers.active", "film_render.dir_couplers.active"),
+    ("couplers.amount", "film_render.dir_couplers.amount"),
+    ("couplers.diffusion_size_um", "film_render.dir_couplers.diffusion_size_um"),
 
     # special
     ("special.film_gamma_factor", "film_render.density_curve_gamma"),
@@ -360,7 +364,7 @@ def make_opts(args: argparse.Namespace, state: dict[str, Any]) -> SimpleNamespac
         auto_ym_shifts=args.auto_ym_shifts,
         film_gamma=float(get_nested(state, "special.film_gamma_factor", 1.0)),
         print_gamma=float(get_nested(state, "special.print_gamma_factor", 1.0)),
-        dir_couplers_amount=float(get_nested(state, "couplers.dir_couplers_amount", 1.0)),
+        dir_couplers_amount=float(get_nested(state, "couplers.amount", get_nested(state, "couplers.dir_couplers_amount", 1.0))),
         output_black_offset=args.output_black_offset,
         control_values={},
         schema=None,
